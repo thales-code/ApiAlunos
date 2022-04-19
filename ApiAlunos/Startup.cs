@@ -12,6 +12,7 @@ using Microsoft.OpenApi.Models;
 using MySql.Data.MySqlClient;
 using System.Data;
 using ApiAlunos.Application.HostedServices.AddAluno;
+using ApiAlunos.Application.Queries.AlunosQuery;
 
 namespace ApiAlunos
 {
@@ -36,6 +37,7 @@ namespace ApiAlunos
             services.AddTransient<IDbConnection, MySqlConnection>(_ => new MySqlConnection(Configuration["ConnectionStrings:Default"]));
             services.AddTransient<IDbSession, DbSession>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<IAlunosQuery, AlunosQuery>();
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CommandValidatorPipeline<,>));
 
             services.AddHostedService<AddAlunoHostedService>();

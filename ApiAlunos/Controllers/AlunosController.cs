@@ -1,4 +1,5 @@
 ﻿using ApiAlunos.Application.Commands.AlunosCommands;
+using ApiAlunos.Application.Queries.AlunosQuery;
 using ApiAlunos.Application.Repositories.AlunosRepository;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -12,24 +13,22 @@ namespace ApiAlunos.Controllers
     {
 
         private readonly IMediator _mediator;
-        private readonly IAlunosRepository _repository;
 
-        public AlunosController(IMediator mediator, IAlunosRepository repository)
+        public AlunosController(IMediator mediator)
         {
             _mediator = mediator;
-            _repository = repository;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] string nome = null)
+        public async Task<IActionResult> Get([FromServices] IAlunosQuery query, [FromQuery] string nome = null)
         {
-            return Ok(await _repository.GetAll(nome));
+            return Ok(await query.ListAllAsync(nome));
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get([FromServices] IAlunosQuery query, int id)
         {
-            return Ok(await _repository.GetById(id));
+            return Ok(await query.ListByIdAsync(id));
         }
 
         [HttpPost]
