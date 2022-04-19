@@ -2,6 +2,6 @@
 {
     public static class AddAlunoTimer
     {
-        public static int Minutes = 1;
+        public static int Minutes = 5;
     }
 }
